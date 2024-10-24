@@ -1,0 +1,91 @@
+
+
+import random
+
+print('Welcome to TWENTY SLOTHS, good luck!')
+games_played=0
+net_gain_loss=0
+
+def get_bet():
+    while True:
+        try:
+            bet = float(input('Enter amount to bet:'))
+            if bet< 10:
+                print('Must be at least $10, Lets try that again...')
+            else:
+                return bet
+        except ValueError:
+            print('Invalid input. Please enter a number.')
+
+def game():
+    global games_played, net_gain_loss
+    sloth=1
+    bet = get_bet()
+    while sloth < 20:
+        print(f'Current sloths {sloth}')
+        print('1. Get another 1-8 sloths')
+        print('2. Get 4-7 more sloths')
+        print('3. Hold')
+        option = input('Enter your option: ')
+        if option == '1':
+            choice = random.randint(1, 8)
+            sloth += choice
+            print(f'Adding {choice}...')
+            if sloth > 20:
+                print(f'Oh no, you\'re at {sloth} sloths!')
+        elif option == '2':
+            choice = random.randint(4, 7)
+            sloth += choice
+            print(f'Adding {choice}')
+            if sloth > 20:
+                print(f'Oh no, you\'re at {sloth} sloths!')
+        elif option == '3':
+            print(f'Holding at {sloth}')
+            break
+        else:
+            print('Invalid option. Please try again.')
+    score(bet,sloth)
+
+def score(bet,sloth):
+    global games_played,net_gain_loss
+    games_played+=1
+    winnings=0
+    if sloth <= 14:
+        print('You won $0.00. Congrats, you lost your money :(')
+
+    elif sloth == 15:
+        winnings = bet * 0.25
+        print(f'You won ${winnings}. Congratulations, you lost money :( ')
+    elif sloth == 16:
+        winnings = bet * 0.50
+        print(f'You won ${winnings}. Congratulations, you lost money :(!')
+    elif sloth == 17:
+        winnings = bet * 1
+        print(f'You won ${winnings}. Congratulations, you lost money :(')
+    elif sloth == 18:
+        winnings = bet * 1.25
+        print(f'You won ${winnings}. Congratulations!')
+    elif sloth == 19:
+        winnings = bet * 1.50
+        print(f'You won ${winnings}. Congratulations you gained money :)')
+    elif sloth == 20:
+        winnings = bet * 2
+
+        print(f'Amazing, you\'re at exactly 20 sloths!\nYou won ${winnings}. Congratulations you gained money :)')
+    else:
+        print('You won $0.00. Congrats, you lost your money :(')
+
+    net_gain_loss+=winnings-bet
+    print(f'Games played: {games_played}\nNet gain/loss: ${net_gain_loss:.2f}')
+
+def game_track():
+    while True:
+        game()
+        play_again=int(input('Enter 1 to play again, anything else to exit'))
+        if play_again!=1:
+            print('Thanks for playing! Hope you came out ahead')
+            break
+
+
+
+game_track()
